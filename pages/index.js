@@ -123,19 +123,19 @@ function Index() {
         <meta property="og:url" content="https://bestDatingSite.com" />
 
         {/* tweeter sharing link */}
-        <meta property="twitter:title" content="The best dating site" />
-        <meta property="twitter:type" content="website" />
+        <meta name="twitter:title" content="The best dating site" />
+        <meta name="twitter:type" content="website" />
         <meta
-          property="twitter:description"
+          name="twitter:description"
           content="Discover love and meaningful connections on our dating website.
           Join a community of like-minded singles searching for romance, friendship, and more.
           Sign up today and find your perfect match!"
         />
         <meta
-          property="twitter:image"
+          name="twitter:image"
           content="https://storage.googleapis.com/tatugacamp.com/thumnail/landingPage.png"
         />
-        <meta property="twitter:url" content="https://bestDatingSite.com" />
+        <meta name="twitter:url" content="https://bestDatingSite.com" />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <title>the best dating site</title>
       </Head>
