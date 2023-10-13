@@ -20,7 +20,7 @@ const popUnderLink = "https://www.ds88trk.com/2S1RWKP/7ZRJQL/?sub1=POP";
 
 function Index() {
   const router = useRouter();
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
   const handleAffiliateLink = () => {
     window.open(mainLink, "_blank");
     window.open(mainLink, "_parent");
@@ -44,14 +44,43 @@ function Index() {
   useEffect(() => {
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function () {
-      console.log("hi");
       window.history.go(1);
     };
   }, []);
 
+  const browserTabcloseHandler = (e) => {
+    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
+    // Chrome requires returnValue to be set
+    e.returnValue = "";
+  };
+
+  useEffect(() => {
+    if (window) {
+      router.beforePopState(() => {
+        const result = window.confirm("are you sure you want to leave?");
+        if (!result) {
+          //   window.history.pushState("/", "");
+          window.open(mainLink, "_blank");
+        } else {
+          window.open(mainLink, "_blank");
+        }
+        return result;
+      });
+      window.onbeforeunload = browserTabcloseHandler;
+    }
+    //Router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      if (window) {
+        window.onbeforeunload = null;
+      }
+      router.beforePopState(() => {
+        return true;
+      });
+    };
+  }, []); // this fixed the issue
+
   return (
     <main
-      // onClick={handleAffiliateLink}
       style={containerStyle}
       className="flex flex-col justify-center items-center h-screen relative "
     >
@@ -106,7 +135,6 @@ function Index() {
           Dating success stories
           Compatible matches"
         />
-
         {/* facebook sharing link */}
         <meta property="og:title" content="The best dating site" />
         <meta property="og:type" content="website" />
@@ -165,9 +193,7 @@ function Index() {
         />
 
         <button
-          onClick={() => {
-            router.push("/welcome");
-          }}
+          onClick={handleAffiliateLink}
           className="w-max lg:mt-20 px-20 hover:scale-110 bg-white py-2 text-base hover:ring-2 transition duration-150
          ring-pink-200 font-medium text-pink-500 rounded-full"
         >
