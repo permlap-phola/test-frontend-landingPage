@@ -82,7 +82,10 @@ function Index({ landingPage }) {
 export default Index;
 
 export const getServerSideProps = async (ctx) => {
-  const landingPage = await GetLandingPageService();
+  const host = ctx.req.headers.host;
+
+  const landingPage = await GetLandingPageService({ host });
+
   return {
     props: {
       landingPage: landingPage,
