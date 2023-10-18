@@ -3,6 +3,7 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
@@ -56,6 +57,19 @@ function Index({ landingPage }) {
       target="_blank"
       style={containerStyle}
     >
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.googleAnalyticsId}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+      >{` window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '${landingPage?.googleAnalyticsId}');`}</Script>
+
       <Head>
         <meta name="description" content={landingPage.description} />
 
@@ -83,7 +97,7 @@ export default Index;
 
 export const getServerSideProps = async (ctx) => {
   const host = ctx.req.headers.host;
-
+  console.log(host);
   const landingPage = await GetLandingPageService({ host });
 
   return {
