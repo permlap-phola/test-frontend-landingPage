@@ -97,7 +97,7 @@ export default Index;
 
 export const getServerSideProps = async (ctx) => {
   const host = ctx.req.headers.host;
-  console.log(host);
+
   const landingPage = await GetLandingPageService({ host });
 
   return {
