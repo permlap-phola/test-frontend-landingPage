@@ -4,10 +4,10 @@ function generateSiteMap({ host }) {
   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <!--We manually set the two URLs we know already-->
     <url>
-      <loc>${host}/</loc>
+      <loc>https://${host}/</loc>
     </url>
     <url>
-      <loc>${host}/welcome</loc>
+      <loc>https://${host}/welcome</loc>
     </url>
   </urlset>
 `;

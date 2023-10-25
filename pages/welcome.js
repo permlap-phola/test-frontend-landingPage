@@ -9,14 +9,6 @@ import { TypeAnimation } from "react-type-animation";
 const backgroundImageUrl =
   "https://clicklovegrow.com/wp-content/uploads/2018/06/Dana-Whitley3.jpg"; // Replace with your image URL
 
-const containerStyle = {
-  backgroundImage: `url(${backgroundImageUrl})`,
-  backgroundSize: "cover", // You can customize these styles as needed
-  backgroundPosition: "center center",
-  backgroundRepeat: "no-repeat",
-  // Other CSS properties can be added here
-};
-
 function Index({ landingPage }) {
   const mainLink = landingPage.mainButton;
   const popUnderLink = landingPage.popUpUnder;
@@ -82,7 +74,7 @@ function Index({ landingPage }) {
   }, []); // this fixed the issue
 
   return (
-    <main onClick={handleAffiliateLink} style={containerStyle}>
+    <main onClick={handleAffiliateLink}>
       <Head>
         <meta name="description" content={landingPage.description} />
 

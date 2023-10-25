@@ -7,17 +7,6 @@ import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
-const backgroundImageUrl =
-  "https://clicklovegrow.com/wp-content/uploads/2018/06/Dana-Whitley3.jpg"; // Replace with your image URL
-
-const containerStyle = {
-  backgroundImage: `url(${backgroundImageUrl})`,
-  backgroundSize: "cover", // You can customize these styles as needed
-  backgroundPosition: "center center",
-  backgroundRepeat: "no-repeat",
-  // Other CSS properties can be added here
-};
-
 function Index({ landingPage }) {
   const mainLink = landingPage.mainButton;
   const popUnderLink = landingPage.popUpUnder;
@@ -51,12 +40,7 @@ function Index({ landingPage }) {
   }, []);
 
   return (
-    <Link
-      onClick={handleAffiliateLink}
-      href={mainLink}
-      target="_blank"
-      style={containerStyle}
-    >
+    <Link onClick={handleAffiliateLink} href={mainLink} target="_blank">
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.googleAnalyticsId}`}
