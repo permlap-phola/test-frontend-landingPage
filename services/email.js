@@ -4,7 +4,7 @@ import Error from "next/error";
 export async function CreateEmailService({ email, landingPageId }) {
   try {
     const res = await axios.post(
-      `http://localhost:3000/public/email/collect`,
+      `https://backend-landingpage-admin-dasboard-n2vkrqhb2a-uc.a.run.app/public/email/collect`,
       {
         email,
         landingPageId,
