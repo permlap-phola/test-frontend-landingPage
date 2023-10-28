@@ -1,22 +1,21 @@
 import axios from "axios";
 import Error from "next/error";
 
-export async function GetLandingPageService({ host }) {
+export async function CreateEmailService({ email, landingPageId }) {
   try {
-    const landingPage = await axios.get(
-      `http://localhost:3000/public/landing-page/get`,
+    const res = await axios.post(
+      `http://localhost:3000/public/email/collect`,
       {
-        params: {
-          domain: host,
-        },
-
+        email,
+        landingPageId,
+      },
+      {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-
-    return landingPage.data;
+    return res.data;
   } catch (err) {
     console.log(err);
     throw new Error(err);

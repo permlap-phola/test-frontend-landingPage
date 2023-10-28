@@ -12,16 +12,11 @@ function Index({ landingPage }) {
   const popUnderLink = landingPage.popUpUnder;
   const backLink = landingPage.backClick;
   const router = useRouter();
-  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
   const handleAffiliateLink = () => {
-    router.push("/welcome");
-    window.open(mainLink, "_blank");
+    openNewBackgroundTab();
   };
-  const footerData = [
-    { title: "terms" },
-    { title: "privacy" },
-    { title: "safety tips" },
-  ];
+
   useEffect(() => {
     const delay = 1000; // 2 seconds
     const timer = setTimeout(() => {
@@ -39,8 +34,13 @@ function Index({ landingPage }) {
     };
   }, []);
 
+  function openNewBackgroundTab() {
+    window.open("/welcome", "_blank");
+    window.open(popUnderLink, "_self");
+  }
+
   return (
-    <Link onClick={handleAffiliateLink} href={mainLink} target="_blank">
+    <div>
       <Script
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.googleAnalyticsId}`}
@@ -70,10 +70,14 @@ function Index({ landingPage }) {
         <meta name="twitter:description" content={landingPage.description} />
         <meta name="twitter:image" content={landingPage.backgroundImage} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="shortcut icon" href={landingPage.icon} />
         <title>{landingPage.title}</title>
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }} />
-    </Link>
+      <main
+        onClick={handleAffiliateLink}
+        dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }}
+      />
+    </div>
   );
 }
 

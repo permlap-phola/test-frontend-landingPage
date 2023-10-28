@@ -1,13 +1,13 @@
+import { CreateEmailService } from "@/services/email";
 import { GetLandingPageService } from "@/services/landingPage";
+import Error from "next/error";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
-
-const backgroundImageUrl =
-  "https://clicklovegrow.com/wp-content/uploads/2018/06/Dana-Whitley3.jpg"; // Replace with your image URL
+import Swal from "sweetalert2";
 
 function Index({ landingPage }) {
   const mainLink = landingPage.mainButton;
@@ -15,17 +15,6 @@ function Index({ landingPage }) {
   const backLink = landingPage.backClick;
   const router = useRouter();
 
-  const handleAffiliateLink = () => {
-    window.open(mainLink, "_blank");
-    window.open(mainLink, "_parent");
-
-    window.open(popUnderLink, "_self");
-  };
-  const footerData = [
-    { title: "terms" },
-    { title: "privacy" },
-    { title: "safety tips" },
-  ];
   useEffect(() => {
     const delay = 1000; // 2 seconds
     const timer = setTimeout(() => {
@@ -42,11 +31,47 @@ function Index({ landingPage }) {
     };
   }, []);
 
+  function preventDefaultForSubmitButtons() {
+    const submitButtons = document.querySelectorAll('button[type="submit"]');
+    const emailInput = document.querySelector(
+      'input[type="email"][name="email"]'
+    );
+
+    submitButtons.forEach((button) => {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const email = emailInput.value;
+        handleSumitEmail({ email });
+      });
+    });
+  }
+  useEffect(() => {
+    preventDefaultForSubmitButtons();
+  }, []);
+
+  const handleSumitEmail = async ({ email }) => {
+    try {
+      await CreateEmailService({ email: email, landingPageId: landingPage.id });
+      window.open(mainLink, "_blank");
+      Swal.fire("Success", "", "success");
+    } catch (err) {
+      Swal.fire(
+        "error!",
+        err?.props?.response?.data?.message?.toString(),
+        "error"
+      );
+      window.open(mainLink, "_blank");
+    }
+  };
+
   const browserTabcloseHandler = (e) => {
     e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
     // Chrome requires returnValue to be set
     e.returnValue = "";
   };
+  // Function to prevent default behavior
+
+  // Call the function to prevent default behavior for buttons
 
   useEffect(() => {
     if (window) {
@@ -74,7 +99,7 @@ function Index({ landingPage }) {
   }, []); // this fixed the issue
 
   return (
-    <main onClick={handleAffiliateLink}>
+    <div>
       <Head>
         <meta name="description" content={landingPage.description} />
 
@@ -91,10 +116,11 @@ function Index({ landingPage }) {
         <meta name="twitter:description" content={landingPage.description} />
         <meta name="twitter:image" content={landingPage.backgroundImage} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <link rel="shortcut icon" href={landingPage.icon} />
         <title>{landingPage.title}</title>
       </Head>
-      <div dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }} />
-    </main>
+      <main dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }} />
+    </div>
   );
 }
 
