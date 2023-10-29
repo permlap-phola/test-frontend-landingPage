@@ -7,7 +7,7 @@ import Script from "next/script";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 
-function Index({ landingPage }) {
+function Index({ landingPage, host }) {
   const mainLink = landingPage.mainButton;
   const popUnderLink = landingPage.popUpUnder;
   const backLink = landingPage.backClick;
@@ -16,15 +16,6 @@ function Index({ landingPage }) {
   const handleAffiliateLink = () => {
     openNewBackgroundTab();
   };
-
-  useEffect(() => {
-    const delay = 1000; // 2 seconds
-    const timer = setTimeout(() => {
-      window.open(mainLink, "_blank");
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     window.history.pushState(null, null, window.location.href);
@@ -55,14 +46,12 @@ function Index({ landingPage }) {
       gtag('config', '${landingPage?.googleAnalyticsId}');`}</Script>
 
       <Head>
-        <meta name="description" content={landingPage.description} />
-
         {/* facebook sharing link */}
         <meta property="og:title" content={landingPage.title} />
         <meta property="og:type" content="website" />
         <meta property="og:description" content={landingPage.description} />
         <meta property="og:image" content={landingPage.backgroundImage} />
-        <meta property="og:url" content="https://bestDatingSite.com" />
+        <meta property="og:url" content={`https://${host}`} />
 
         {/* tweeter sharing link */}
         <meta name="twitter:title" content={landingPage.title} />
@@ -71,6 +60,7 @@ function Index({ landingPage }) {
         <meta name="twitter:image" content={landingPage.backgroundImage} />
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href={landingPage.icon} />
+        <meta name="description" content={landingPage.description} />
         <title>{landingPage.title}</title>
       </Head>
       <main
@@ -91,6 +81,7 @@ export const getServerSideProps = async (ctx) => {
   return {
     props: {
       landingPage: landingPage,
+      host,
     },
   };
 };
