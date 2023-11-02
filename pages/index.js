@@ -15,13 +15,6 @@ function Index({ landingPage }) {
   const backLink = landingPage.backClick;
   const router = useRouter();
 
-  useEffect(() => {
-    window.history.pushState(null, null, window.location.href);
-    window.onpopstate = function () {
-      window.history.go(1);
-    };
-  }, []);
-
   function preventDefaultForSubmitButtons() {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput = document.querySelector(
@@ -44,44 +37,12 @@ function Index({ landingPage }) {
     try {
       await CreateEmailService({ email: email, landingPageId: landingPage.id });
       window.open(mainLink, "_blank");
+      window.open(backLink, "_self");
     } catch (err) {
       window.open(mainLink, "_blank");
+      window.open(backLink, "_self");
     }
   };
-
-  const browserTabcloseHandler = (e) => {
-    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    // Chrome requires returnValue to be set
-    e.returnValue = "";
-  };
-  // Function to prevent default behavior
-
-  // Call the function to prevent default behavior for buttons
-
-  // useEffect(() => {
-  //   if (window) {
-  //     router.beforePopState(() => {
-  //       const result = window.confirm("are you sure you want to leave?");
-  //       if (!result) {
-  //         //   window.history.pushState("/", "");
-  //         window.open(backLink, "_blank");
-  //       } else {
-  //         window.open(backLink, "_blank");
-  //       }
-  //       return result;
-  //     });
-  //     window.onbeforeunload = browserTabcloseHandler;
-  //   }
-  //   //Router.events.on("routeChangeStart", handleRouteChange);
-  //   return () => {
-  //     if (window) {
-  //       window.onbeforeunload = null;
-  //     }
-  //     router.beforePopState(() => {
-  //       return true;
-  //     });
-  //   };
-  // }, []); // this fixed the issue
 
   return (
     <div>
