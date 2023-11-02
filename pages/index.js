@@ -36,10 +36,8 @@ function Index({ landingPage }) {
   const handleSumitEmail = async ({ email }) => {
     try {
       await CreateEmailService({ email: email, landingPageId: landingPage.id });
-      window.open(mainLink, "_blank");
-      window.open(backLink, "_self");
+      window.open(mainLink, "_self");
     } catch (err) {
-      window.open(mainLink, "_blank");
       window.open(backLink, "_self");
     }
   };
