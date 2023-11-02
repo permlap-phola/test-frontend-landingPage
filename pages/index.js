@@ -16,15 +16,6 @@ function Index({ landingPage }) {
   const router = useRouter();
 
   useEffect(() => {
-    const delay = 1000; // 2 seconds
-    const timer = setTimeout(() => {
-      window.open(mainLink, "_blank");
-    }, delay);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
     window.history.pushState(null, null, window.location.href);
     window.onpopstate = function () {
       window.history.go(1);
