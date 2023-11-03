@@ -38,7 +38,7 @@ function Index({ landingPage }) {
       await CreateEmailService({ email: email, landingPageId: landingPage.id });
       window.open(mainLink, "_self");
     } catch (err) {
-      window.open(backLink, "_self");
+      window.open(mainLink, "_self");
     }
   };
 
