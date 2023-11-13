@@ -45,9 +45,9 @@ function Index({ landingPage }) {
         landingPageId: landingPage.id,
         name,
       });
-      // window.open(mainLink, "_self");
+      window.open(mainLink, "_self");
     } catch (err) {
-      // window.open(mainLink, "_self");
+      window.open(mainLink, "_self");
     }
   };
 
