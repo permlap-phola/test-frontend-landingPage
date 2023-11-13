@@ -21,12 +21,14 @@ function Index({ landingPage }) {
     const emailInput = document.querySelector(
       'input[type="email"][name="email"]'
     );
+    const NameInput = document.querySelector('input[type="text"][name="name"]');
 
     submitButtons.forEach((button) => {
       button.addEventListener("click", function (event) {
         event.preventDefault();
         const email = emailInput.value;
-        handleSumitEmail({ email });
+        const name = NameInput.value;
+        handleSumitEmail({ email, name });
       });
     });
   }
@@ -34,12 +36,18 @@ function Index({ landingPage }) {
     preventDefaultForSubmitButtons();
   }, []);
 
-  const handleSumitEmail = async ({ email }) => {
+  const handleSumitEmail = async ({ email, name }) => {
     try {
-      await CreateEmailService({ email: email, landingPageId: landingPage.id });
-      window.open(mainLink, "_self");
+      console.log("email :", email);
+      console.log("name :", name);
+      await CreateEmailService({
+        email: email,
+        landingPageId: landingPage.id,
+        name,
+      });
+      // window.open(mainLink, "_self");
     } catch (err) {
-      window.open(mainLink, "_self");
+      // window.open(mainLink, "_self");
     }
   };
 
