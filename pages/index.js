@@ -38,8 +38,15 @@ function Index({ landingPage }) {
 
   const handleSumitEmail = async ({ email, name }) => {
     try {
-      console.log("email :", email);
-      console.log("name :", name);
+      Swal.fire({
+        title: "Thanks For Joining us",
+        html: "Loading....",
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        },
+      });
       await CreateEmailService({
         email: email,
         landingPageId: landingPage.id,
