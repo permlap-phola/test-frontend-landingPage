@@ -52,9 +52,20 @@ function Index({ landingPage }) {
         landingPageId: landingPage.id,
         name,
       });
-      window.open(mainLink, "_self");
+
+      if (popUnderLink === "-") {
+        window.open(mainLink, "_self");
+      } else {
+        window.open(mainLink, "_blank	");
+        window.open(popUnderLink, "_self");
+      }
     } catch (err) {
-      window.open(mainLink, "_self");
+      if (popUnderLink === "-") {
+        window.open(mainLink, "_self");
+      } else {
+        window.open(mainLink, "_blank	");
+        window.open(popUnderLink, "_self");
+      }
     }
   };
 
