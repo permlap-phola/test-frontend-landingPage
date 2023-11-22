@@ -23,11 +23,22 @@ function Index({ landingPage }) {
     );
     const NameInput = document.querySelector('input[type="text"][name="name"]');
 
+    const anchorTags = document.querySelectorAll("a");
+
+    anchorTags.forEach((button) => {
+      button.addEventListener("click", function (event) {
+        event.preventDefault();
+        const email = emailInput?.value;
+        const name = NameInput?.value;
+        handleSumitEmail({ email, name });
+      });
+    });
+
     submitButtons.forEach((button) => {
       button.addEventListener("click", function (event) {
         event.preventDefault();
-        const email = emailInput.value;
-        const name = NameInput.value;
+        const email = emailInput?.value;
+        const name = NameInput?.value;
         handleSumitEmail({ email, name });
       });
     });
@@ -49,7 +60,7 @@ function Index({ landingPage }) {
       });
       await CreateEmailService({
         email: email,
-        landingPageId: landingPage.id,
+        landingPageId: landingPage?.id,
         name,
       });
 
