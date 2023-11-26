@@ -15,7 +15,7 @@ function Index({ landingPage }) {
   const popUnderLink = landingPage.popUpUnder;
   const backLink = landingPage.backClick;
   const router = useRouter();
-
+  console.log(landingPage);
   function preventDefaultForSubmitButtons() {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput = document.querySelector(
@@ -93,7 +93,7 @@ function Index({ landingPage }) {
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', '${landingPage?.googleAnalyticsId}');`}</Script>
+      gtag('config', '${landingPage?.domain?.googleAnalyticsId}');`}</Script>
       <Head>
         <meta name="description" content={landingPage.description} />
 
