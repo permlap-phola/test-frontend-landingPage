@@ -121,7 +121,15 @@ function Index({ landingPage }) {
 export default Index;
 export const getServerSideProps = async (ctx) => {
   const host = ctx.req.headers.host;
-  const landingPage = await GetLandingPageService({ host });
+  // const host = "localhost:8181";
+  const acceptLanguage = ctx.req.headers["accept-language"];
+  let userLanguage = acceptLanguage ? acceptLanguage.split(",")[0] : "en";
+  userLanguage = userLanguage?.split("-")[0];
+
+  const landingPage = await GetLandingPageService({
+    host,
+    language: userLanguage,
+  });
   return {
     props: {
       landingPage: landingPage,
