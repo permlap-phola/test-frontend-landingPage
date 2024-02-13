@@ -30,7 +30,7 @@ function Index({ landingPage }) {
         event.preventDefault();
         const email = emailInput?.value;
         const name = NameInput?.value;
-        // handleSumitEmail({ email, name });
+        handleSumitEmail({ email, name });
       });
     });
 
