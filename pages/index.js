@@ -30,7 +30,7 @@ function Index({ landingPage }) {
         event.preventDefault();
         const email = emailInput?.value;
         const name = NameInput?.value;
-        handleSumitEmail({ email, name });
+        // handleSumitEmail({ email, name });
       });
     });
 
@@ -86,27 +86,30 @@ function Index({ landingPage }) {
         strategy="afterInteractive"
         src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.domain?.googleAnalyticsId}`}
       />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-      >{` window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+      <Script id="google-analytics" strategy="afterInteractive">
+        {` window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-      gtag('config', '${landingPage?.domain?.googleAnalyticsId}');
-      
-      const anchorTags = document.querySelectorAll("a");
-  
-      [...anchorTags].map((anchor) => {
-        anchor.addEventListener("click", function (anchor) {
-          gtag("event", "button-click", {
-            affiliate_url: ${mainLink},
-          });
-        })
-    
-      })
-     
-      `}</Script>
+          gtag('config', '` +
+          landingPage?.domain?.googleAnalyticsId +
+          `');
+          
+          const anchorTags = document.querySelectorAll("a");
+
+          [...anchorTags].map((anchor) => {
+            anchor.addEventListener("click", function (anchor) {
+              console.log("button clicked")
+              gtag("event", "button-click", {
+                value: 1,
+                affiliate_url: '` +
+          mainLink +
+          `',
+              });
+            })
+          })
+        `}
+      </Script>
       <Head>
         <meta name="description" content={landingPage.description} />
 
