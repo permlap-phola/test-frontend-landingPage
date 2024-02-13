@@ -85,7 +85,7 @@ function Index({ landingPage }) {
     <div>
       <Script
         strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.domain?.googleAnalyticsId}}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.domain?.googleAnalyticsId}`}
       />
       <Script
         id="google-analytics"
