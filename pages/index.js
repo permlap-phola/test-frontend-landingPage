@@ -6,9 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Script from "next/script";
+import { GoogleAnalytics } from "nextjs-google-analytics";
 import React, { useEffect, useState } from "react";
 import { TypeAnimation } from "react-type-animation";
 import Swal from "sweetalert2";
+import { event } from "nextjs-google-analytics";
 
 function Index({ landingPage }) {
   const mainLink = landingPage.mainButton;
@@ -26,8 +28,12 @@ function Index({ landingPage }) {
     const anchorTags = document.querySelectorAll("a");
 
     anchorTags.forEach((button) => {
-      button.addEventListener("click", function (event) {
-        event.preventDefault();
+      button.addEventListener("click", function (e) {
+        event("click", {
+          category: "button-click",
+          label: mainLink,
+        });
+        e.preventDefault();
         handleSumitEmail({ email: "", name: "" });
       });
     });
@@ -80,35 +86,11 @@ function Index({ landingPage }) {
 
   return (
     <div>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.domain?.googleAnalyticsId}`}
+      <GoogleAnalytics
+        trackPageViews
+        gaMeasurementId={landingPage?.domain?.googleAnalyticsId}
       />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {` window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
 
-          gtag('config', '` +
-          landingPage?.domain?.googleAnalyticsId +
-          `');
-          
-          const anchorTags = document.querySelectorAll("a");
-
-          [...anchorTags].map((anchor) => {
-            anchor.addEventListener("click", function (anchor) {
-              console.log("button clicked")
-          
-              gtag("event", "button-click", {
-                value: 1,
-                affiliate_url: '` +
-          mainLink +
-          `',
-              });
-            })
-          })
-        `}
-      </Script>
       <Head>
         <meta name="description" content={landingPage.description} />
 
