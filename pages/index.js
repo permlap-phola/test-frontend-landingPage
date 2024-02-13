@@ -16,6 +16,7 @@ function Index({ landingPage }) {
   const backLink = landingPage.backClick;
   const router = useRouter();
   console.log(landingPage);
+
   function preventDefaultForSubmitButtons() {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput = document.querySelector(
@@ -84,7 +85,7 @@ function Index({ landingPage }) {
     <div>
       <Script
         strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.googleAnalyticsId}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${landingPage?.domain?.googleAnalyticsId}}`}
       />
       <Script
         id="google-analytics"
