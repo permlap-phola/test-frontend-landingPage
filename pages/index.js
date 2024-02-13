@@ -15,7 +15,6 @@ function Index({ landingPage }) {
   const popUnderLink = landingPage.popUpUnder;
   const backLink = landingPage.backClick;
   const router = useRouter();
-  console.log(landingPage);
 
   function preventDefaultForSubmitButtons() {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
@@ -31,7 +30,7 @@ function Index({ landingPage }) {
         event.preventDefault();
         const email = emailInput?.value;
         const name = NameInput?.value;
-        handleSumitEmail({ email, name });
+        // handleSumitEmail({ email, name });
       });
     });
 
@@ -94,7 +93,20 @@ function Index({ landingPage }) {
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', '${landingPage?.domain?.googleAnalyticsId}');`}</Script>
+      gtag('config', '${landingPage?.domain?.googleAnalyticsId}');
+      
+      const anchorTags = document.querySelectorAll("a");
+  
+      [...anchorTags].map((anchor) => {
+        anchor.addEventListener("click", function (anchor) {
+          gtag("event", "button-click", {
+            affiliate_url: ${mainLink},
+          });
+        })
+    
+      })
+     
+      `}</Script>
       <Head>
         <meta name="description" content={landingPage.description} />
 
@@ -122,6 +134,7 @@ function Index({ landingPage }) {
 export default Index;
 export const getServerSideProps = async (ctx) => {
   const host = ctx.req.headers.host;
+
   // const host = "localhost:8181";
   const acceptLanguage = ctx.req.headers["accept-language"];
   let userLanguage = acceptLanguage ? acceptLanguage.split(",")[0] : "en";
