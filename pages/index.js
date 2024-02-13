@@ -39,8 +39,12 @@ function Index({ landingPage }) {
     });
 
     submitButtons.forEach((button) => {
-      button.addEventListener("click", function (event) {
-        event.preventDefault();
+      button.addEventListener("click", function (e) {
+        event("click", {
+          category: "button-click",
+          label: mainLink,
+        });
+        e.preventDefault();
         const email = emailInput?.value;
         const name = NameInput?.value;
         handleSumitEmail({ email, name });
