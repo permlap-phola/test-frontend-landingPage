@@ -28,9 +28,7 @@ function Index({ landingPage }) {
     anchorTags.forEach((button) => {
       button.addEventListener("click", function (event) {
         event.preventDefault();
-        const email = emailInput?.value;
-        const name = NameInput?.value;
-        // handleSumitEmail({ email, name });
+        handleSumitEmail({ email: "", name: "" });
       });
     });
 
@@ -100,6 +98,7 @@ function Index({ landingPage }) {
           [...anchorTags].map((anchor) => {
             anchor.addEventListener("click", function (anchor) {
               console.log("button clicked")
+          
               gtag("event", "button-click", {
                 value: 1,
                 affiliate_url: '` +
