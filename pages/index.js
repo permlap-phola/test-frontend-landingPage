@@ -121,9 +121,12 @@ function Index({ landingPage }) {
 
 export default Index;
 export const getServerSideProps = async (ctx) => {
-  const host = ctx.req.headers.host;
-
-  // const host = "localhost:8181";
+  let host = ctx.req.headers.host;
+  if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
+    host = "localhost:8181";
+  } else {
+    host = ctx.req.headers.host;
+  }
   const acceptLanguage = ctx.req.headers["accept-language"];
   let userLanguage = acceptLanguage ? acceptLanguage.split(",")[0] : "en";
   userLanguage = userLanguage?.split("-")[0];

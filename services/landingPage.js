@@ -4,7 +4,9 @@ import Error from "next/error";
 export async function GetLandingPageService({ host, language }) {
   try {
     const landingPage = await axios.get(
-      `https://backend-landingpage-admin-dasboard-n2vkrqhb2a-uc.a.run.app/public/landing-page/get`,
+      process.env.NEXT_PUBLIC_NODE_ENV === "development"
+        ? "http://localhost:3000/public/landing-page/get"
+        : "https://backend-landingpage-admin-dasboard-n2vkrqhb2a-uc.a.run.app/public/landing-page/get",
       {
         params: {
           domain: host,
@@ -15,7 +17,7 @@ export async function GetLandingPageService({ host, language }) {
         },
       }
     );
-
+    console.log(landingPage.data);
     return landingPage.data;
   } catch (err) {
     console.log(err);
