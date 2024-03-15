@@ -1,5 +1,4 @@
 import axios from "axios";
-import Error from "next/error";
 
 export async function GetLandingPageService({ host, language }) {
   try {
@@ -17,10 +16,9 @@ export async function GetLandingPageService({ host, language }) {
         },
       }
     );
-    console.log(landingPage.data);
     return landingPage.data;
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err.response.data;
   }
 }

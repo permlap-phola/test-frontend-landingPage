@@ -1,24 +1,18 @@
 import { CreateEmailService } from "@/services/email";
 import { GetLandingPageService } from "@/services/landingPage";
-import Error from "next/error";
 import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/router";
-import Script from "next/script";
 import { GoogleAnalytics } from "nextjs-google-analytics";
 import React, { useEffect, useState } from "react";
-import { TypeAnimation } from "react-type-animation";
 import Swal from "sweetalert2";
 import { event } from "nextjs-google-analytics";
+import { DirectLinkService } from "@/services/merchant";
 
 function Index({ landingPage }) {
-  const mainLink = landingPage.mainButton;
-  const popUnderLink = landingPage.popUpUnder;
-  const backLink = landingPage.backClick;
   const router = useRouter();
+  const mainLink = landingPage.mainButton;
 
-  function preventDefaultForSubmitButtons() {
+  const preventDefaultForSubmitButtons = () => {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput = document.querySelector(
       'input[type="email"][name="email"]'
@@ -50,7 +44,8 @@ function Index({ landingPage }) {
         handleSumitEmail({ email, name });
       });
     });
-  }
+  };
+
   useEffect(() => {
     preventDefaultForSubmitButtons();
   }, []);
@@ -66,25 +61,35 @@ function Index({ landingPage }) {
           Swal.showLoading();
         },
       });
-      await CreateEmailService({
-        email: email,
-        landingPageId: landingPage?.id,
-        name,
-      });
 
-      if (popUnderLink === "-") {
-        window.open(mainLink, "_self");
+      if (landingPage.directLink) {
+        const [directLink, collectEmail] = await Promise.allSettled([
+          DirectLinkService({
+            email: email,
+            url: landingPage.directLink,
+          }),
+          CreateEmailService({
+            email: email,
+            landingPageId: landingPage?.id,
+            name,
+          }),
+        ]);
+        Swal.fire({
+          title: "Success",
+          text: "You have been successfully registered",
+          icon: "success",
+        });
+        if (directLink.value.status === "error") {
+          router.push(mainLink);
+        } else if (directLink.value.status === "success") {
+          router.push(directLink.value.location);
+        }
       } else {
-        window.open(mainLink, "_blank	");
-        window.open(popUnderLink, "_self");
+        window.open(mainLink, "_self");
       }
     } catch (err) {
-      if (popUnderLink === "-") {
-        window.open(mainLink, "_self");
-      } else {
-        window.open(mainLink, "_blank	");
-        window.open(popUnderLink, "_self");
-      }
+      console.log("run", err);
+      window.open(mainLink), "_self";
     }
   };
 

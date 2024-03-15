@@ -1,5 +1,4 @@
 import axios from "axios";
-import Error from "next/error";
 
 export async function CreateEmailService({ email, landingPageId, name }) {
   try {
@@ -21,6 +20,6 @@ export async function CreateEmailService({ email, landingPageId, name }) {
     return res.data;
   } catch (err) {
     console.log(err);
-    throw new Error(err);
+    throw err.response.data;
   }
 }
