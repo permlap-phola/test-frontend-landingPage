@@ -107,7 +107,6 @@ function Index({ landingPage }) {
 
       <Head>
         <meta name="description" content={landingPage.description} />
-
         {/* facebook sharing link */}
         <meta property="og:title" content={landingPage.title} />
         <meta property="og:type" content="website" />
@@ -123,33 +122,7 @@ function Index({ landingPage }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <link rel="shortcut icon" href={landingPage.icon} />
         <title>{landingPage.title}</title>
-
-        <script
-          type="text/javascript"
-          src="https://www.ds88trk.com/scripts/sdk/everflow.js"
-        ></script>
-        <script type="text/javascript">
-          {`
-          EF.conversion({
-          offer_id: 1643,
-          //amount: AMOUNT,
-          })
-          EF.click({
-          offer_id: EF.urlParameter('oid'),
-          affiliate_id: EF.urlParameter('pid'),
-          sub1: EF.urlParameter('sub1'),
-          sub2: EF.urlParameter('sub2'),
-          sub3: EF.urlParameter('sub3'),
-          sub4: EF.urlParameter('sub4'),
-          sub5: EF.urlParameter('sub5'),
-          uid: EF.urlParameter('uid'),
-          source_id: EF.urlParameter('source_id'),
-          transaction_id: EF.urlParameter('_ef_transaction_id'),
-          })
-          `}
-        </script>
       </Head>
-
       <main dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }} />
     </div>
   );
