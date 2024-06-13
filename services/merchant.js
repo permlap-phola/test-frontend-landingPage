@@ -27,6 +27,7 @@ export async function DirectLinkService({ email, url }) {
         "Content-Type": "application/json",
       },
     });
+    console.log(response.data.location);
     return response.data;
   } catch (err) {
     console.log(err);

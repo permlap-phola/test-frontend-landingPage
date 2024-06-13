@@ -16,6 +16,7 @@ export async function GetLandingPageService({ host, language }) {
         },
       }
     );
+
     return landingPage.data;
   } catch (err) {
     console.log(err);
