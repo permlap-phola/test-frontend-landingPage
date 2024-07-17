@@ -52,15 +52,15 @@ function Index({ landingPage }) {
   };
 
   useEffect(() => {
-    const body = document.getElementById("u_body");
-    if (body) {
-      body.style.display = "flex";
-      body.style.alignItems = "center";
-      body.style.justifyContent = "center";
-      body.style.gap = "0.75rem";
-    } else {
-      console.log('Element with id "u_body" not found.');
-    }
+    // const body = document.getElementById("u_body");
+    // if (body) {
+    //   body.style.display = "flex";
+    //   body.style.alignItems = "center";
+    //   body.style.justifyContent = "center";
+    //   body.style.gap = "0.75rem";
+    // } else {
+    //   console.log('Element with id "u_body" not found.');
+    // }
     preventDefaultForSubmitButtons();
   }, []);
 
