@@ -142,10 +142,12 @@ export const getServerSideProps = async (ctx) => {
   let host = ctx.req.headers.host;
   try {
     const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response.json();
-    const userIP = data.ip;
+    const data = await response?.json();
+    const userIP = data?.ip;
+    console.log("userIP", userIP);
     const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
     const country = await countryResponse?.json();
+    console.log("country", country);
     if (country.country === "Thailand") {
       return {
         redirect: {
