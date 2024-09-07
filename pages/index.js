@@ -140,6 +140,24 @@ function Index({ landingPage }) {
 export default Index;
 export const getServerSideProps = async (ctx) => {
   let host = ctx.req.headers.host;
+  try {
+    const response = await fetch("https://api.ipify.org?format=json");
+    const data = await response.json();
+    const userIP = data.ip;
+    const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
+    const country = await countryResponse?.json();
+    if (country.country === "Thailand") {
+      return {
+        redirect: {
+          destination: "/no-support",
+          permanent: false,
+        },
+      };
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+
   if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
     host = "localhost:8181";
   } else {
