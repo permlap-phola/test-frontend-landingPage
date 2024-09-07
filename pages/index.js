@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { event } from "nextjs-google-analytics";
 import { DirectLinkService } from "@/services/merchant";
+import requestIp from "request-ip";
 
 function Index({ landingPage }) {
   const router = useRouter();
@@ -140,10 +141,9 @@ function Index({ landingPage }) {
 export default Index;
 export const getServerSideProps = async (ctx) => {
   let host = ctx.req.headers.host;
+
   try {
-    const response = await fetch("https://api.ipify.org?format=json");
-    const data = await response?.json();
-    const userIP = data?.ip;
+    const userIP = requestIp.getClientIp(ctx.req);
     console.log("userIP", userIP);
     const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
     const country = await countryResponse?.json();
