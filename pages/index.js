@@ -148,7 +148,7 @@ export const getServerSideProps = async (ctx) => {
     const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
     const country = await countryResponse?.json();
     console.log("country", country);
-    if (country.country === "Thailand") {
+    if (country?.country === "Thailand") {
       return {
         redirect: {
           destination: "/no-support",
@@ -168,6 +168,7 @@ export const getServerSideProps = async (ctx) => {
   const acceptLanguage = ctx.req.headers["accept-language"];
   let userLanguage = acceptLanguage ? acceptLanguage.split(",")[0] : "en";
   userLanguage = userLanguage?.split("-")[0];
+  console.log("userLanguage", userLanguage);
 
   const landingPage = await GetLandingPageService({
     host,
