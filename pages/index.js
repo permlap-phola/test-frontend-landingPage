@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { event } from "nextjs-google-analytics";
 import { DirectLinkService } from "@/services/merchant";
+import requestIp from "request-ip";
 
 function Index({ landingPage }) {
   const router = useRouter();
@@ -140,6 +141,25 @@ function Index({ landingPage }) {
 export default Index;
 export const getServerSideProps = async (ctx) => {
   let host = ctx.req.headers.host;
+
+  try {
+    const userIP = requestIp.getClientIp(ctx.req);
+    console.log("userIP", userIP);
+    const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
+    const country = await countryResponse?.json();
+    console.log("country", country);
+    if (country?.country === "Thailand") {
+      return {
+        redirect: {
+          destination: "/no-support",
+          permanent: false,
+        },
+      };
+    }
+  } catch (error) {
+    console.log("error", error);
+  }
+
   if (process.env.NEXT_PUBLIC_NODE_ENV === "development") {
     host = "localhost:8181";
   } else {
@@ -148,6 +168,7 @@ export const getServerSideProps = async (ctx) => {
   const acceptLanguage = ctx.req.headers["accept-language"];
   let userLanguage = acceptLanguage ? acceptLanguage.split(",")[0] : "en";
   userLanguage = userLanguage?.split("-")[0];
+  console.log("userLanguage", userLanguage);
 
   const landingPage = await GetLandingPageService({
     host,
