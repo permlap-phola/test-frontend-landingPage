@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export async function DirectLinkService({ email, url }) {
+export async function DirectLinkService({
+  email,
+  url,
+}: {
+  email: string;
+  url: string;
+}) {
   try {
     const ip = await axios({
       method: "GET",
