@@ -21,16 +21,8 @@ function Index({
   landingPage: ResponseGetLandingPageService;
   errorMessage?: string;
 }) {
-  if (errorMessage) {
-    return (
-      <div className="w-screen h-screen bg-black font-Anuphan">
-        <div className="flex p-10 justify-center text-center  text-white items-center w-full h-full">
-          <h1 className="text-base lg:text-3xl font-bold">{errorMessage}</h1>
-        </div>
-      </div>
-    );
-  }
   const router = useRouter();
+
   const mainLink = landingPage.mainButton;
 
   useEffect(() => {
@@ -134,6 +126,16 @@ function Index({
           <h1 className="text-base lg:text-3xl font-bold">
             This domain {landingPage.domain.name} has no landing page
           </h1>
+        </div>
+      </div>
+    );
+  }
+
+  if (errorMessage) {
+    return (
+      <div className="w-screen h-screen bg-black font-Anuphan">
+        <div className="flex p-10 justify-center text-center  text-white items-center w-full h-full">
+          <h1 className="text-base lg:text-3xl font-bold">{errorMessage}</h1>
         </div>
       </div>
     );
