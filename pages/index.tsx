@@ -16,9 +16,20 @@ import { Language } from "../interfaces";
 
 function Index({
   landingPage,
+  errorMessage,
 }: {
   landingPage: ResponseGetLandingPageService;
+  errorMessage?: string;
 }) {
+  if (errorMessage) {
+    return (
+      <div className="w-screen h-screen bg-black font-Anuphan">
+        <div className="flex p-10 justify-center text-center  text-white items-center w-full h-full">
+          <h1 className="text-base lg:text-3xl font-bold">{errorMessage}</h1>
+        </div>
+      </div>
+    );
+  }
   const router = useRouter();
   const mainLink = landingPage.mainButton;
 
@@ -192,13 +203,22 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   userLanguage = userLanguage?.split("-")[0] as Language;
   console.log("userLanguage", userLanguage);
 
-  const landingPage = await GetLandingPageService({
-    host,
-    language: userLanguage,
-  });
-  return {
-    props: {
-      landingPage: landingPage,
-    },
-  };
+  try {
+    const landingPage = await GetLandingPageService({
+      host,
+      language: userLanguage,
+    });
+    return {
+      props: {
+        landingPage: landingPage,
+      },
+    };
+  } catch (error) {
+    console.log("error", error);
+    return {
+      props: {
+        errorMessage: error.message,
+      },
+    };
+  }
 };
