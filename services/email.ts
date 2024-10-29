@@ -1,6 +1,14 @@
 import axios from "axios";
 
-export async function CreateEmailService({ email, landingPageId, name }) {
+export async function CreateEmailService({
+  email,
+  landingPageId,
+  name,
+}: {
+  email: string;
+  landingPageId: string;
+  name: string;
+}) {
   try {
     const res = await axios.post(
       process.env.NEXT_PUBLIC_NODE_ENV === "development"
