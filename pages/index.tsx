@@ -13,6 +13,7 @@ import { DirectLinkService } from "@/services/merchant";
 import requestIp from "request-ip";
 import { GetServerSideProps } from "next";
 import { Language } from "../interfaces";
+import * as crypto from "crypto";
 
 function Index({
   landingPage,
@@ -145,6 +146,7 @@ function Index({
     <div>
       <GoogleAnalytics
         trackPageViews
+        nonce={crypto.randomBytes(16).toString("base64")}
         gaMeasurementId={landingPage?.domain?.googleAnalyticsId}
       />
 
