@@ -13,6 +13,7 @@ import { DirectLinkService } from "@/services/merchant";
 import requestIp from "request-ip";
 import { GetServerSideProps } from "next";
 import { Language } from "../interfaces";
+import * as crypto from "crypto";
 
 function Index({
   landingPage,
@@ -22,20 +23,9 @@ function Index({
   errorMessage?: string;
 }) {
   const router = useRouter();
-
   const mainLink = landingPage.mainButton;
 
-  useEffect(() => {
-    // const body = document.getElementById("u_body");
-    // if (body) {
-    //   body.style.display = "flex";
-    //   body.style.alignItems = "center";
-    //   body.style.justifyContent = "center";
-    //   body.style.gap = "0.75rem";
-    // } else {
-    //   console.log('Element with id "u_body" not found.');
-    // }
-
+  const preventDefaultForSubmitButtons = () => {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput: HTMLInputElement = document.querySelector(
       'input[type="email"][name="email"]'
@@ -45,7 +35,6 @@ function Index({
     );
 
     const anchorTags = document.querySelectorAll("a");
-
     anchorTags.forEach((button) => {
       let href = button.href;
 
@@ -74,6 +63,19 @@ function Index({
         handleSumitEmail({ email, name });
       });
     });
+  };
+  useEffect(() => {
+    // const body = document.getElementById("u_body");
+    // if (body) {
+    //   body.style.display = "flex";
+    //   body.style.alignItems = "center";
+    //   body.style.justifyContent = "center";
+    //   body.style.gap = "0.75rem";
+    // } else {
+    //   console.log('Element with id "u_body" not found.');
+    // }
+
+    preventDefaultForSubmitButtons();
   }, []);
 
   const handleSumitEmail = async ({ email, name }) => {
@@ -144,6 +146,7 @@ function Index({
     <div>
       <GoogleAnalytics
         trackPageViews
+        nonce={crypto.randomBytes(16).toString("base64")}
         gaMeasurementId={landingPage?.domain?.googleAnalyticsId}
       />
 
