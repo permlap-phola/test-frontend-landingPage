@@ -1,8 +1,10 @@
+import { NextConfig } from "next";
+
 /** @type {import('next').NextConfig} */
 const cspHeader = `
  script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com 'unsafe-eval';
 `;
-const nextConfig = {
+const nextConfig: NextConfig = {
   async headers() {
     return [
       {
@@ -16,6 +18,7 @@ const nextConfig = {
       },
     ];
   },
+
   reactStrictMode: true,
   images: {
     remotePatterns: [
