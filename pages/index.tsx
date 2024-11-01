@@ -18,13 +18,15 @@ import * as crypto from "crypto";
 function Index({
   landingPage,
   errorMessage,
+  country,
 }: {
   landingPage: ResponseGetLandingPageService;
   errorMessage?: string;
+  country: string;
 }) {
   const router = useRouter();
-  const mainLink = landingPage.mainButton;
-
+  const mainLink = landingPage?.mainButton;
+  console.log("country", country);
   const preventDefaultForSubmitButtons = () => {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput: HTMLInputElement = document.querySelector(
@@ -120,6 +122,7 @@ function Index({
       window.open(mainLink), "_self";
     }
   };
+  console.log("errorMessage", errorMessage);
   if (errorMessage) {
     return (
       <div className="w-screen h-screen bg-black font-Anuphan">
@@ -130,6 +133,16 @@ function Index({
     );
   }
 
+  if (country === "Thailand") {
+    return (
+      <div
+        className="w-screen h-screen bg-black font-semibold text-center
+       font-Poppins text-white flex justify-center items-center text-lg md:text-2xl"
+      >
+        Our service is not available in your country.
+      </div>
+    );
+  }
   if (!landingPage.id) {
     return (
       <div className="w-screen h-screen bg-black font-Anuphan">
@@ -176,20 +189,15 @@ function Index({
 export default Index;
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let host = ctx.req.headers.host;
-
+  let country = "United States";
   try {
     const userIP = requestIp.getClientIp(ctx.req);
     console.log("userIP", userIP);
     const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
-    const country = await countryResponse?.json();
-    console.log("country", country);
-    if (country?.country === "Thailand") {
-      return {
-        redirect: {
-          destination: "/no-support",
-          permanent: false,
-        },
-      };
+    const response = await countryResponse?.json();
+    console.log("response", response);
+    if (response?.country) {
+      country = response?.country;
     }
   } catch (error) {
     console.log("error", error);
@@ -215,6 +223,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       props: {
         landingPage: landingPage,
+        country,
       },
     };
   } catch (error) {
