@@ -26,7 +26,7 @@ function Index({
 }) {
   const router = useRouter();
   const mainLink = landingPage?.mainButton;
-  console.log("country", country);
+
   const preventDefaultForSubmitButtons = () => {
     const submitButtons = document.querySelectorAll('button[type="submit"]');
     const emailInput: HTMLInputElement = document.querySelector(
@@ -48,7 +48,17 @@ function Index({
           category: "button-click",
           label: href,
         });
-        router.push(href);
+
+        if (landingPage.secondOffer) {
+          event("click", {
+            category: "secondOffer-offer",
+            label: landingPage.secondOffer,
+          });
+          window.open(href, "_blank");
+          router.push(landingPage.secondOffer);
+        } else {
+          router.push(href);
+        }
         e.preventDefault();
       });
     });
@@ -66,17 +76,8 @@ function Index({
       });
     });
   };
-  useEffect(() => {
-    // const body = document.getElementById("u_body");
-    // if (body) {
-    //   body.style.display = "flex";
-    //   body.style.alignItems = "center";
-    //   body.style.justifyContent = "center";
-    //   body.style.gap = "0.75rem";
-    // } else {
-    //   console.log('Element with id "u_body" not found.');
-    // }
 
+  useEffect(() => {
     preventDefaultForSubmitButtons();
   }, []);
 
@@ -118,11 +119,9 @@ function Index({
         window.open(mainLink, "_self");
       }
     } catch (err) {
-      console.log("run", err);
       window.open(mainLink), "_self";
     }
   };
-  console.log("errorMessage", errorMessage);
   if (errorMessage) {
     return (
       <div className="w-screen h-screen bg-black font-Anuphan">
@@ -181,6 +180,21 @@ function Index({
         <link rel="shortcut icon" href={landingPage.icon} />
         <title>{landingPage.title}</title>
       </Head>
+      {landingPage?.backOffer && (
+        <button
+          onClick={() => {
+            event("click", {
+              category: "backOffer-click",
+              label: landingPage.backOffer,
+            });
+            router.push(landingPage.backOffer);
+          }}
+          className="fixed top-2 left-2 z-50 text-xl font-normal border border-white
+       bg-red-500 rounded-md text-white px-8 py-4 hover:bg-red-50 hover:text-red-700 transition active:scale-105"
+        >
+          BACK
+        </button>
+      )}
       <main dangerouslySetInnerHTML={{ __html: `${landingPage.html}` }} />
     </div>
   );
@@ -192,10 +206,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let country = "United States";
   try {
     const userIP = requestIp.getClientIp(ctx.req);
-    console.log("userIP", userIP);
     const countryResponse = await fetch(`http://ip-api.com/json/${userIP}`);
     const response = await countryResponse?.json();
-    console.log("response", response);
     if (response?.country) {
       country = response?.country;
     }
@@ -213,7 +225,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     ? (acceptLanguage.split(",")[0] as Language)
     : ("en" as Language);
   userLanguage = userLanguage?.split("-")[0] as Language;
-  console.log("userLanguage", userLanguage);
 
   try {
     const landingPage = await GetLandingPageService({
@@ -227,7 +238,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   } catch (error) {
-    console.log("error", error);
     return {
       props: {
         errorMessage: error.message,
